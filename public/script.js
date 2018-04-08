@@ -38,6 +38,7 @@ function setup() {
             }
         }
     }
+    noStroke();
 }
 
 function draw() {
