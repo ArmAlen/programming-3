@@ -2,73 +2,134 @@ var express = require("express");
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-var gishatich = require("./classes/gishatic");
-var grass = require("./classes/grass");
-var grass = require("./classes/shataker");
-var grass = require("./classes/xotaker");
+var random = require("./rand.js");
 
-var matrix = [];
-var w = 30;
-var h = 30;
-var side = 24;
-var grassArr = [];
-var xotakerArr = [];
-var gishatichArr = [];
-var shatakerArr = [];
+global.Glux = require("./public/classes.js");
+var gishatich = require("./public/gishatich.js");
+var grass = require("./public/grass.js");
+var shataker = require("./public/shataker.js");
+var xotaker = require("./public/xotaker.js");
+global.exanak = 1;
+var or = 0;
+
+var weather = "amar";
+
+global.matrix = [];
+global.w = 30;
+global.h = 30;
+
+global.grassArr = [];
+global.xotakerArr = [];
+global.gishatichArr = [];
+global.shatakerArr = [];
 
 app.use(express.static("public"));
 
-app.get("/", function(req, res){
-   res.redirect("public");
+app.get("/", function (req, res) {
+    res.redirect("public");
 });
 
-app.listen(3000, function(){
-   console.log("Example is running on port 3000");
+server.listen(3000, function () {
+    console.log("Server@ sksec ashxatel");
 });
 
-
-DrawServer (){
-
-  background("#acacac");
-for(var y in matrix) {
-    for(var x in matrix[y]) {
-        if(matrix[y][x] == 0) {
-            fill("#acacac");
-        }
-        else if(matrix[y][x] == 1) {
-            fill("#229954  ");
-        }
-        else if(matrix[y][x] == 2) {
-            fill("#F1C40F");
-        }
-        else if(matrix[y][x] == 3) {
-            fill("#CB4335");
-        }
-        else if(matrix[y][x] == 4) {
-            fill("#9B59B6");
-        }
-        rect(x * side, y * side, side, side);
-  
-      }
-    }
-  }
-
-
-  
-io.on('connection', function(socket){
-  sockets.emit('Draw',matrix);
-  setInterval(DrawServer, 500);
+function ora() {
+    or++;
+    if(or==2)
+    or=0;
+    io.sockets.emit("change or", or);
 }
-);
 
-// Define the port to run on
-/*
-app.set('port', process.env.PORT || 3000);
+function exan() {
+    exanak++;
+    if (exanak == 1) {
+        weather = "garun";
+    }
 
-app.use(express.static(path.join(__dirname, 'public')));
+    if (exanak == 2) {
+        weather = "amar";
+    }
 
-// Listen for requests
-var server = app.listen(app.get('port'), function() {
-  var port = server.address().port;
-  console.log('Magic happens on port ' + port);
-});*/
+    if (exanak == 3) {
+        weather = "ashun";
+    }
+
+    if (exanak == 4) {
+        weather = "dzmer";
+    }
+    if (exanak == 5) { exanak = 0; }
+    io.sockets.emit("change weather", weather);
+}
+
+
+
+for (var y in matrix) {
+    for (var x in matrix[y]) {
+        if (matrix[y][x] == 1) {
+            grassArr.push(new Grass(x * 1, y * 1, 1));
+        }
+        else if (matrix[y][x] == 2) {
+            xotakerArr.push(new Xotaker(x * 1, y * 1, 2));
+        }
+        else if (matrix[y][x] == 3) {
+            gishatichArr.push(new Gishatich(x * 1, y * 1, 3))
+        }
+        else if (matrix[y][x] == 4) {
+            shatakerArr.push(new Shataker(x * 1, y * 1, 4))
+        }
+    }
+}
+
+function DrawServer() {
+    matrix = genMatrix(w, h);
+    function genMatrix(w, h) {
+        for (var y = 0; y < h; y++) {
+            matrix[y] = [];
+            for (var x = 0; x < w; x++) {
+                var r = random(110);
+                if (r < 15) r = 0;
+                else if (r < 80) r = 1;
+                else if (r < 90) r = 2;
+                else if (r < 100) r = 3;
+                else if (r < 110) r = 4;
+                matrix[y][x] = r;
+            }
+        }
+        return matrix;
+    }
+
+
+
+    for (var i in grassArr) {
+        grassArr[i].mul();
+    }
+
+    for (var i in xotakerArr) {
+        xotakerArr[i].bazmanal();
+        xotakerArr[i].utel();
+        xotakerArr[i].mahanal();
+    }
+
+    for (var i in gishatichArr) {
+        gishatichArr[i].bazmanal();
+        gishatichArr[i].utel();
+        gishatichArr[i].mahanal();
+    }
+
+    for (var i in shatakerArr) {
+        shatakerArr[i].bazmanal();
+        shatakerArr[i].utel();
+        shatakerArr[i].mahanal();
+    }
+    io.sockets.emit('matrix', matrix);
+}
+
+setInterval(DrawServer, 300);
+setInterval(exan, 8000);    
+setInterval(ora, 4000);    
+
+io.on('connection', function (socket) {
+
+
+});
+
