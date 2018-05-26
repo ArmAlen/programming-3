@@ -4,14 +4,81 @@
     <meta charset="UTF-8">
     <title>xAx</title>
     <script src="p5.js"></script>
-    <script src="classes.js"></script>
-    <script src="grass.js"></script>
-    <script src="xotaker.js"></script>
-    <script src="gishatich.js"></script>
-    <script src="shataker.js"></script>
+    <script src="socket.io/socket.io.js"></script>
     <script src="script.js"></script>
+    <style>
+        h1{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #ord{
+            margin-top: 281px;;
+            margin-left: 30.5%;
+            width: 527px;
+            position: absolute;
+            height: 527px;
+        }
+        canvas{
+
+    margin-left: 30%;
+    width: 50%;
+    border: 3px solid black;
+    padding: 10px;
+        }
+        #syun1{
+            height: 40px;
+            width: 5px;
+            background-color: #AF601A ;
+            margin: 10px;
+            
+        }
+
+        #syun2{
+            height: 40px;
+            width: 5px;
+            background-color: #34495E ;
+            margin: 10px;
+        }
+
+        #syun3{
+            height: 40px;
+            width: 5px;
+            background-color: #7F8C8D ;
+            margin: 10px;
+        }
+
+        #syun4{
+            height: 40px;
+            width: 5px;
+            background-color: #229954 ;
+            margin: 10px;
+        }
+        #div{
+            margin-left: 100px;
+            margin-top: 50px;
+        }
+        img{
+            margin-left: -5%;
+            position:absolute;
+            
+        }
+      
+    </style>
 </head>
 <body>
     
+    
+    
+    <div id="ord"></div>
+    <div id="div">
+        <img id="im" src="images/bear.jpg">
+        <div id="syun1"></div>
+        <img src="images/wolf.png">
+        <div id="syun2"></div>
+        <img src="images/napo.jpg">
+        <div id="syun3"></div>
+        <img src="images/grass.png">
+        <div id="syun4"></div>
+    </div>
+    <center><h1 id="ory">Day</h1></center>
 </body>
 </html>

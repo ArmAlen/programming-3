@@ -1,93 +1,109 @@
-function genMatrix(w, h) {
-    var matrix = [];
-    for(var y = 0; y < h; y++) {
-        matrix[y] = [];
-        for(var x = 0; x < w; x++) {
-            var r = random(110);
-            if     (r < 15) r = 0;
-            else if(r < 80) r = 1;
-            else if(r < 90) r = 2;
-            else if(r < 100)r = 3;
-            else if(r < 110)r = 4;
-            matrix[y][x] = r;
-        }
-    }
-    return matrix;
-}
+var socket = io.connect("http://localhost:3000/");
+var side = 40;
+var weather = "Amar";
+var img;
+var or;
 
-var matrix;
-var w = 30;
-var h = 30;
-var side = 24;
-var grassArr = [], xotakerArr = [], gishatichArr = [], shatakerArr = [];
+function preload() {
+    img_wolf = loadImage('images/wolf.png');
+    img_grass = loadImage('images/grass.png');
+    img_bear = loadImage('images/bear.jpg');
+    img_napo = loadImage('images/napo.jpg');
+    img_snow = loadImage('images/snow.jpg');
+    img_ashun = loadImage('images/ashun.png');
+}
 
 function setup() {
-    matrix = genMatrix(w, h);
-    createCanvas(side * w, side * h);
+   socket.on('matrix', draw);
+    createCanvas(520, 520);
     background("#acacac");
     frameRate(5);
-    for(var y in matrix) {
-        for(var x in matrix[y]) {
-            if(matrix[y][x] == 1) {
-                grassArr.push(new Grass(x*1, y*1, 1));
-            }
-            else if(matrix[y][x] == 2) {
-                xotakerArr.push(new Xotaker(x*1, y*1, 2));
-            }
-            else if(matrix[y][x] == 3) {
-                gishatichArr.push(new Gishatich(x*1, y*1, 3))
-            }
-            else if(matrix[y][x] == 4) {
-                shatakerArr.push(new Shataker(x*1, y*1, 4))
-            }
-        }
-    }
-    
+    noStroke();
 }
 
-function draw() {
-    background("#acacac");
+function draw(matrix) {
+
+    
     for(var y in matrix) {
         for(var x in matrix[y]) {
+            rect(x * side, y * side, side, side);
             if(matrix[y][x] == 0) {
-                fill("#acacac");
+                fill("#d1cbcb");
             }
             else if(matrix[y][x] == 1) {
-                fill("#229954  ");
+                if(weather=="garun")
+                image(img_grass, x * side, y * side);
+
+                if(weather=="amar")
+                image(img_grass, x * side, y * side);
+
+                if(weather=="ashun")
+                image(img_ashun, x * side, y * side);
+
+                if(weather=="dzmer")
+                image(img_snow, x * side, y * side);
             }
             else if(matrix[y][x] == 2) {
-                fill("#F1C40F");
+                image(img_napo, x * side, y * side);
             }
             else if(matrix[y][x] == 3) {
-                fill("#CB4335");
+                image(img_wolf, x * side, y * side);
             }
             else if(matrix[y][x] == 4) {
-                fill("#9B59B6");
+                image(img_bear, x * side, y * side);
             }
-            rect(x * side, y * side, side, side);
+            
+      
+          }
+
+
+}
+
+    
+}
+    function ort(){
+        if(or==1)
+        {
+            document.getElementById("ord").style.backgroundColor = "#00000094";
+            document.getElementById("ory").innerHTML = "Night";
+        }
+        if(or==0)
+        {
+            document.getElementById("ord").style.backgroundColor = "#00000000";
+            document.getElementById("ory").innerHTML = "Day";
         }
     }
 
-    for(var i in grassArr) {
-        grassArr[i].mul();
-    }
 
-    for(var i in xotakerArr) {
-        xotakerArr[i].bazmanal();
-        xotakerArr[i].utel();
-        xotakerArr[i].mahanal();
-    }
+    
+ setInterval(ort, 3000); 
+var chap_1=10;
+var chap_2=10;
+var chap_3=10;
+var chap_4=10;
+ function sts(){
+    document.getElementById("syun2").style.width = chap_1+"px";
+    document.getElementById("syun1").style.width = chap_2+"px";
+    document.getElementById("syun4").style.width = chap_3+"px";
+    document.getElementById("syun3").style.width = chap_4+"px";
+ }
 
-    for(var i in gishatichArr) {
-        gishatichArr[i].bazmanal();
-        gishatichArr[i].utel();
-        gishatichArr[i].mahanal();
-    }
+setInterval(sts, 200);
 
-    for(var i in shatakerArr) {
-        shatakerArr[i].bazmanal();
-        shatakerArr[i].utel();
-        shatakerArr[i].mahanal();
-    }
+ socket.on("change weather", function(data) {
+    weather = data; });
 
-}
+ socket.on("change or", function(data) {
+    or = data; });
+
+ socket.on("chaps_1", function(data) {
+    chap_1 = data;    });
+
+socket.on("chaps_2", function(data) {
+        chap_2 = data; });
+
+socket.on("chaps_3", function(data) {
+    chap_3 = data; });
+
+socket.on("chaps_4", function(data) {
+     chap_4 = data; });

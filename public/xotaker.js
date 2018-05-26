@@ -1,6 +1,7 @@
-class Xotaker  extends Glux{
-    constructor(x, y, index) {
-        super(x,y,index);
+var glux = require('./classes.js');
+module.exports =class Xotaker  extends Glux{
+    constructor(x, y, index,ser) {
+        super(x,y,index,ser);
         this.multiply = Math.round(Math.random() * 8);
         this.speed = 8;
     }
@@ -23,7 +24,9 @@ class Xotaker  extends Glux{
 
 
     sharjvel() {
-        var vand = random(this.yntrelVandak(0));
+        if(or==0){
+        var vandakik = this.yntrelVandak(0);
+        var vand = vandakik[Math.floor(Math.random() * vandakik.length)];
         if (vand && this.multiply >= this.speed / 4) {
             this.energy--;
             matrix[this.y][this.x] = 0;
@@ -32,12 +35,18 @@ class Xotaker  extends Glux{
             this.multiply = 0;
         }
     }
+    }
 
     utel() {
         this.energy--;
+
+        if(weather == "garun")
+            this.energy++;
+
         this.multiply++;
-        var vand = random(this.yntrelVandak(1));
-        if (vand && this.multiply >= this.speed / 4) {
+        var vandakik = this.yntrelVandak(1);
+        var vand = vandakik[Math.floor(Math.random() * vandakik.length)];
+        if (vand && this.multiply >= this.speed / 8) {
             this.energy += this.speed;
             matrix[this.y][this.x] = 0;
             this.x = vand[0]; this.y = vand[1];
@@ -45,6 +54,7 @@ class Xotaker  extends Glux{
             for (var i in grassArr) {
                 if (grassArr[i].x == this.x && grassArr[i].y == this.y) {
                     grassArr.splice(i, 1);
+                    chaps_3--;
                 }
             }
         }
@@ -53,19 +63,29 @@ class Xotaker  extends Glux{
     }
 
     bazmanal() {
-        var vand = random(this.yntrelVandak(0));
+        if(or==0){
+        var vandakik = this.yntrelVandak(0);
+        var vand = vandakik[Math.floor(Math.random() * vandakik.length)];
         if (vand && this.energy >= this.speed) {
             this.energy = 1;
             var newxotaker = new Xotaker(vand[0], vand[1], 2);
             xotakerArr.push(newxotaker);
+            chaps_4++;
         }
     }
+}
 
     mahanal() {
+        if(weather == "dzmer")
+            this.energy--;
+
+        
+
         if (this.energy <= -(this.speed / 2)) {
             matrix[this.y][this.x] = 0;
             for (var i in xotakerArr) {
                 if (xotakerArr[i].x == this.x && xotakerArr[i].y == this.y) {
+                   chaps_4--;
                     xotakerArr.splice(i, 1);
                 }
             }

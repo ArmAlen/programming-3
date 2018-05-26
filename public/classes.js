@@ -1,7 +1,8 @@
-class Glux {
-constructor(x, y, index) {
+module.exports = class Glux {
+constructor(x, y, index,ser) {
         this.x = x;
         this.y = y;
+        this.ser = ser;
         this.index = index;
         this.energy = Math.round(Math.random() * 16);
         this.speed = 24;
