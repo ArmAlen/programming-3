@@ -33,7 +33,7 @@ app.get("/", function (req, res) {
     res.redirect("public");
 });
 
-server.listen(gametumo.herokuapp.com, function () {
+server.listen(gametumo, function () {
     console.log("Server@ sksec ashxatel");
 });
 
