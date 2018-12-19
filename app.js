@@ -33,7 +33,7 @@ app.get("/", function (req, res) {
     res.redirect("public");
 });
 
-server.listen(gametumo, function () {
+server.listen(process.env.PORT || 3000, function () {
     console.log("Server@ sksec ashxatel");
 });
 
